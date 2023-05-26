@@ -17,6 +17,10 @@ final class User: Model, Content {
     var name: String
     @Field(key: "username")
     var username: String
+    
+    @Children(for: \Acronym.$user)
+    var acronyms: [Acronym]
+    
     init() {}
     init(id: UUID? = nil, name: String, username: String) {
         self.id = id
