@@ -6,14 +6,26 @@ import Vapor
 public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-
+    let databaseName: String
+    let databasePort: Int
+    if (app.environment == .testing) {
+        databaseName = "TILApp-Test"
+        databasePort = 5433
+    } else {
+        databaseName = "TILApp"
+        databasePort = 5432
+    }
     
     app.databases.use(.postgres(
-        hostname: "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
-        username: "postgres",
-        password: "",
-        database: "TILApp"
+      hostname: Environment.get("DATABASE_HOST")
+        ?? "localhost",
+      port: databasePort,
+      username: Environment.get("DATABASE_USERNAME")
+        ?? "postgres",
+      password: Environment.get("DATABASE_PASSWORD")
+        ?? "",
+      database: Environment.get("DATABASE_NAME")
+        ?? databaseName
     ), as: .psql)
     
     app.migrations.add(CreateUser())

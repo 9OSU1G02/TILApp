@@ -107,19 +107,19 @@ struct AcronymsController: RouteCollection {
     func addCategoriesHandler(_ req: Request)
         -> EventLoopFuture<HTTPStatus>
     {
-        // 2
+        
         let acronymQuery =
             Acronym.find(req.parameters.get("acronymID"), on: req.db)
                 .unwrap(or: Abort(.notFound))
         let categoryQuery =
             Category.find(req.parameters.get("categoryID"), on: req.db)
                 .unwrap(or: Abort(.notFound))
-        // 3
+        
         return acronymQuery.and(categoryQuery)
             .flatMap { acronym, category in
                 acronym
                     .$categories
-                    // 4
+                    
                     .attach(category, on: req.db)
                     .transform(to: .created)
             }

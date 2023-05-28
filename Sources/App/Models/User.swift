@@ -40,11 +40,11 @@ final class Student {
     }
 }
 
-@propertyWrapper // 1
+@propertyWrapper 
 struct Uppercased {
-    var value: String // 2
+    var value: String 
     
-    var wrappedValue: String {    // 3
+    var wrappedValue: String {    
         get {
             value.uppercased()
         }
@@ -52,7 +52,7 @@ struct Uppercased {
             value = newValue
         }
     }
-        // 4
+        
     init(wrappedValue: String)  {
         self.value = wrappedValue
     }
