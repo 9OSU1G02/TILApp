@@ -25,7 +25,6 @@ final class UserTests: XCTestCase {
     func testUsersCanBeRetrievedFromAPI() throws {
         let user = try User.create(name: usersName, username: usersUsername, on: app.db)
         _ = try User.create(on: app.db)
-        
         try app.test(.GET, usersURI, afterResponse: { response in
             XCTAssertEqual(response.status, .ok)
             let users = try response.content.decode([User].self)
