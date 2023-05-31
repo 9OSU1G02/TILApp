@@ -9,7 +9,7 @@ import Fluent
 
 struct CreateUser: Migration {
     func prepare(on database: FluentKit.Database) -> NIOCore.EventLoopFuture<Void> {
-        database.schema("users").id().field("name", .string, .required).field("username", .string, .required).create()
+        database.schema("users").id().field("name", .string, .required).field("password", .string, .required).field("username", .string, .required).unique(on: "username").create()
     }
 
     func revert(on database: FluentKit.Database) -> NIOCore.EventLoopFuture<Void> {
